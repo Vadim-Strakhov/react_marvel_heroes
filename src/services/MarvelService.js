@@ -1,6 +1,7 @@
 class MarvelService {
-  apiBase = "https://gateway.marvel.com:443/v1/public/";
-  apiKey = "apikey=b860ae4f50120b46e53bb6d38bbb7db4";
+  #apiBase = "https://gateway.marvel.com:443/v1/public/";
+  #apiKey = "apikey=b860ae4f50120b46e53bb6d38bbb7db4";
+  #baseOffset = 210;
 
   //_ отправка запроса
   getResource = async (url) => {
@@ -14,23 +15,24 @@ class MarvelService {
   };
 
   //_ получение всех персонажей
-  getAllCharacters = async () => {
+  getAllCharacters = async (offset = this.#baseOffset) => {
     const res = await this.getResource(
-      `${this.apiBase}characters?limit=9&offset=210&${this.apiKey}`
+      `${this.#apiBase}characters?limit=9&offset=${offset}&${this.#apiKey}`
     );
     // console.log(res);
-    return res.data.results.map(this.transformCharacter);
+    console.log("Current offset:", offset);
+    return res.data.results.map(this.#transformCharacter);
   };
   //_ получение персонажа по id
   getCharacter = async (id) => {
     const res = await this.getResource(
-      `${this.apiBase}/characters/${id}?&${this.apiKey}`
+      `${this.#apiBase}/characters/${id}?&${this.#apiKey}`
     );
     // console.log(res);
-    return this.transformCharacter(res.data.results[0]);
+    return this.#transformCharacter(res.data.results[0]);
   };
 
-  transformCharacter = (char) => {
+  #transformCharacter = (char) => {
     return {
       id: char.id,
       name: char.name,
@@ -40,6 +42,7 @@ class MarvelService {
       thumbnail: char.thumbnail.path + "." + char.thumbnail.extension,
       homepage: char.urls[0].url,
       wiki: char.urls[1].url,
+      comics: char.comics.items,
     };
   };
 }
