@@ -1,7 +1,7 @@
 class MarvelService {
   #apiBase = "https://gateway.marvel.com:443/v1/public/";
   #apiKey = "apikey=b860ae4f50120b46e53bb6d38bbb7db4";
-  #baseOffset = 210;
+  #baseOffset = 180;
 
   //_ отправка запроса
   getResource = async (url) => {
@@ -20,7 +20,7 @@ class MarvelService {
       `${this.#apiBase}characters?limit=9&offset=${offset}&${this.#apiKey}`
     );
     // console.log(res);
-    console.log("Current offset:", offset);
+    // console.log("Current offset:", offset);
     return res.data.results.map(this.#transformCharacter);
   };
   //_ получение персонажа по id
