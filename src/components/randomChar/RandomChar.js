@@ -53,7 +53,7 @@ const RandomChar = () => {
 
   const errorMessage = error ? <ErrorMessage /> : null; //_ если произошла ошибка
   const spinner = loading ? <Spinner /> : null; //_ спиннер загрузки
-  const content = !(loading || error) ? <View char={char} /> : null; //_ если все загрузилось
+  const content = !(loading || error || !char) ? <View char={char} /> : null; //_ если все загрузилось
 
   return (
     <div className="randomchar">
@@ -97,7 +97,7 @@ const View = ({ char }) => {
         style={imgStyle}
       />
       <div className="randomchar__info">
-        <p className="randomchar__name">{null}</p>
+        <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">{description}</p>
         <div className="randomchar__btns">
           <a href={homepage} className="button button__main">
