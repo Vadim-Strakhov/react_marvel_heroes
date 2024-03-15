@@ -2,38 +2,26 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "./charList.scss";
 
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Spinner from "../spinner/Spinner";
 
 const CharList = (props) => {
   const [charList, setCharList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(180);
   const [charEnded, setCharEnded] = useState(false);
 
-  const marvelService = new MarvelService();
+  const { loading, error, getAllCharacters } = useMarvelService();
 
   useEffect(() => {
-    onRequest();
+    onRequest(offset, true);
   }, []);
 
-  const onRequest = (offset) => {
+  const onRequest = (offset, initial) => {
+    initial ? setNewItemLoading(false) : setNewItemLoading(true); //_ для исправление спиннера при дозагрузке персонажей
     //_ запрос на сервер
-    onCharListLoading();
-    marvelService
-      .getAllCharacters(offset)
-      .then(onCharListLoaded)
-      .catch((error) => {
-        console.log("Произошла ошибка при получении персонажей:", error); //_ чтобы увидеть ошибку
-        onError();
-      });
-  };
-
-  const onCharListLoading = () => {
-    setNewItemLoading(true);
+    getAllCharacters(offset).then(onCharListLoaded);
   };
 
   const onCharListLoaded = (newCharList) => {
@@ -43,16 +31,9 @@ const CharList = (props) => {
     }
     //_ формирование новых данных и нового состояния, учитывая старое
     setCharList((charList) => [...charList, ...newCharList]);
-    setLoading((loading) => false);
     setNewItemLoading((newItemLoading) => false);
     setOffset((offset) => offset + 9);
     setCharEnded((charEnded) => ended);
-  };
-
-  //_ если произошла ошибка
-  const onError = () => {
-    setError(true);
-    setLoading((loading) => false);
   };
 
   //_ добавление персонажам фокуса при выборе с клавиатуры или мышкой
@@ -104,17 +85,16 @@ const CharList = (props) => {
     return <ul className="char__grid">{items}</ul>;
   }
 
-  const items = renderItems(charList);
+  const items = renderItems(charList); //_ статичный контент, чтобы не было перерисовки при дозагрузке персонажей
 
   const errorMessage = error ? <ErrorMessage /> : null; //_ если произошла ошибка
-  const spinner = loading ? <Spinner /> : null; //_ спиннер загрузки
-  const content = !(loading || error) ? items : null; //_ если все загрузилось
+  const spinner = loading && !newItemLoading ? <Spinner /> : null; //_ спиннер загрузки
 
   return (
     <div className="char__list">
       {errorMessage}
       {spinner}
-      {content}
+      {items}
       <button
         className="button button__main button__long"
         disabled={newItemLoading}

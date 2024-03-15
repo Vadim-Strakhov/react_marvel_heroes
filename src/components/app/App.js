@@ -19,13 +19,14 @@ const App = () => {
     <div className="app">
       <AppHeader />
       <main>
-        <RandomChar />
+        {/* // _ предохранитель для ошибок */}
+        <ErrorBoundary>
+          <RandomChar />
+        </ErrorBoundary>
         <div className="char__content">
-          {/* // _ предохранитель для ошибок */}
           <ErrorBoundary>
             <CharList onCharSelected={onCharSelected} />
           </ErrorBoundary>
-          {/* // _ предохранитель для ошибок */}
           <ErrorBoundary>
             <CharInfo charId={selectedChar} />
           </ErrorBoundary>

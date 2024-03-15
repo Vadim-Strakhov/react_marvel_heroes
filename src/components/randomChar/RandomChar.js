@@ -1,54 +1,35 @@
 import React, { useState, useEffect } from "react";
+import useMarvelService from "../../services/MarvelService";
 
 import "./randomChar.scss";
 
 import Spinner from "../spinner/Spinner";
-import MarvelService from "../../services/MarvelService";
 import mjolnir from "../../resources/img/mjolnir.png";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 const RandomChar = () => {
   const [char, setChar] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const marvelService = new MarvelService();
+  const { loading, error, getCharacter, clearError } = useMarvelService();
 
   useEffect(() => {
     updateChar();
-    const timerId = setInterval(updateChar, 60000);
+    // const timerId = setInterval(updateChar, 60000);
 
     return () => {
-      clearInterval(timerId);
+      // clearInterval(timerId);
     };
   }, []);
 
   const onCharLoaded = (char) => {
     setChar(char);
-    setLoading(false);
-  };
-
-  const onCharLoading = () => {
-    setLoading(true);
-  };
-
-  //_ если произошла ошибка
-  const onError = (e) => {
-    setError(true);
-    setLoading(false);
   };
 
   //_ загрузка рандомного персонажа
   const updateChar = () => {
+    clearError(); //_ для очистки ошибки и возобновления работы
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-    onCharLoading();
-    marvelService
-      .getCharacter(id)
-      .then(onCharLoaded)
-      .catch((error) => {
-        console.log("Произошла ошибка при получении персонажей:", error); //_ чтобы увидеть ошибку
-        onError();
-      });
+    //_ запрос на сервер
+    getCharacter(id).then(onCharLoaded);
   };
 
   const errorMessage = error ? <ErrorMessage /> : null; //_ если произошла ошибка
@@ -83,7 +64,9 @@ const View = ({ char }) => {
 
   if (
     thumbnail ===
-    "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+      "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ||
+    thumbnail ===
+      "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif"
   ) {
     imgStyle = { objectFit: "contain" };
   }
