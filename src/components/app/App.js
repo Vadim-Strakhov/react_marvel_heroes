@@ -25,20 +25,20 @@ const App = () => {
         {/* // _ предохранитель для ошибок */}
         {/* <ErrorBoundary>
           <RandomChar />
-        </ErrorBoundary> */}
+        </ErrorBoundary>
 
         <div className="char__content">
-          {/* <ErrorBoundary>
+          <ErrorBoundary>
             <CharList onCharSelected={onCharSelected} />
           </ErrorBoundary>
           <ErrorBoundary>
             <CharInfo charId={selectedChar} />
-          </ErrorBoundary> */}
-          {/* <AppBanner /> */}
-          <ComicsList />
-          {/* <SingleComic /> */}
+          </ErrorBoundary>
         </div>
-        <img className="bg-decoration" src={decoration} alt="vision" />
+        <img className="bg-decoration" src={decoration} alt="vision" /> */}
+        <AppBanner />
+        <ComicsList />
+        {/* <SingleComic /> */}
       </main>
     </div>
   );

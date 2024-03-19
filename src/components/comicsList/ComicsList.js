@@ -2,55 +2,72 @@ import React, { useState, useEffect } from "react";
 import useMarvelService from "../../services/MarvelService";
 
 import "./comicsList.scss";
+import ErrorMessage from "../errorMessage/ErrorMessage";
+import Spinner from "../spinner/Spinner";
 
 const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);
-  const [offset, setOffset] = useState(180);
+  const [newItemLoading, setNewItemLoading] = useState(false);
+  const [offset, setOffset] = useState(100);
+  const [comicsEnded, setComicsEnded] = useState(false);
 
-  const { getAllComics } = useMarvelService();
+  const { loading, error, getAllComics } = useMarvelService();
 
   useEffect(() => {
-    onRequest();
+    onRequest(offset, true);
   }, []);
 
-  const onRequest = () => {
+  const onRequest = (offset, initial) => {
+    initial ? setNewItemLoading(false) : setNewItemLoading(true);
     getAllComics(offset).then(onComicsListLoaded);
   };
 
-  const onComicsListLoaded = (newList) => {
-    setComicsList([...comicsList, ...newList]);
-    setOffset(offset + 9);
+  const onComicsListLoaded = (newComicsList) => {
+    let ended = false;
+    if (newComicsList.length > 8) {
+      ended = true;
+    }
+    setComicsList([...comicsList, ...newComicsList]);
+    setNewItemLoading(false);
+    setOffset(offset + 8);
+    setComicsEnded(ended);
   };
+
+  function renderItems(arr) {
+    const items = arr.map((item, i) => {
+      return (
+        <li key={item.id + i} className="comics__item">
+          <a href={item.url} target="_blank" rel="noreferrer">
+            <img
+              src={item.thumbnail}
+              alt={item.title}
+              className="comics__item-img"
+            />
+            <div className="comics__item-name">{item.title}</div>
+            <div className="comics__item-price">{item.price}</div>
+          </a>
+        </li>
+      );
+    });
+
+    return <ul className="comics__grid">{items}</ul>;
+  }
+
+  const items = renderItems(comicsList);
+
+  const errorMessage = error ? <ErrorMessage /> : null;
+  const spinner = loading && !newItemLoading ? <Spinner /> : null;
 
   return (
     <div className="comics__list">
-      <ul className="comics__grid">
-        {comicsList &&
-          comicsList.map(function (comic, index) {
-            return (
-              <li key={comic.id + index} className="comics__item">
-                <a href={comic.urls[0]["url"]} target="_blank" rel="noreferrer">
-                  <img
-                    src={
-                      comic.thumbnail["path"] +
-                      "." +
-                      comic.thumbnail["extension"]
-                    }
-                    alt="ultimate war"
-                    className="comics__item-img"
-                  />
-                  <div className="comics__item-name">{comic.title}</div>
-                  <div className="comics__item-price">
-                    {comic.prices[0]["price"] + "$"}
-                  </div>
-                </a>
-              </li>
-            );
-          })}
-      </ul>
+      {errorMessage}
+      {spinner}
+      {items}
       <button
+        disabled={newItemLoading}
+        style={{ display: comicsEnded ? "none" : "block" }}
         className="button button__main button__long"
-        onClick={() => onRequest()}
+        onClick={() => onRequest(offset)}
       >
         <div className="inner">load more</div>
       </button>
