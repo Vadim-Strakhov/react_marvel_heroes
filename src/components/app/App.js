@@ -9,8 +9,11 @@ const App = () => {
         <AppHeader />
         <main>
           <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/comics" element={<ComicsPage />} />
+            <Route path="/react_marvel_heroes" element={<MainPage />} />
+            <Route
+              path="/react_marvel_heroes/comics"
+              element={<ComicsPage />}
+            />
           </Routes>
         </main>
       </div>
