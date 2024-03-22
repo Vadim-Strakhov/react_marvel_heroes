@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/Vadim-Strakhov/react_marvel_heroes/static/css/main.c010bfe3.css",
-    "main.js": "/Vadim-Strakhov/react_marvel_heroes/static/js/main.9925f337.js",
-    "static/media/vision.png": "/Vadim-Strakhov/react_marvel_heroes/static/media/vision.067d4ae1936d64a577ce.png",
-    "static/media/mjolnir.png": "/Vadim-Strakhov/react_marvel_heroes/static/media/mjolnir.61f31e1809f12183a524.png",
-    "static/media/Avengers.png": "/Vadim-Strakhov/react_marvel_heroes/static/media/Avengers.4065c8f9c94e3d8b039a.png",
-    "static/media/error.gif": "/Vadim-Strakhov/react_marvel_heroes/static/media/error.42292aa12b6bc303ce99.gif",
-    "static/media/Avengers_logo.png": "/Vadim-Strakhov/react_marvel_heroes/static/media/Avengers_logo.9eaf219344d83362e830.png",
-    "index.html": "/Vadim-Strakhov/react_marvel_heroes/index.html",
-    "main.c010bfe3.css.map": "/Vadim-Strakhov/react_marvel_heroes/static/css/main.c010bfe3.css.map",
-    "main.9925f337.js.map": "/Vadim-Strakhov/react_marvel_heroes/static/js/main.9925f337.js.map"
+    "main.css": "/react_marvel_heroes/static/css/main.c010bfe3.css",
+    "main.js": "/react_marvel_heroes/static/js/main.1c061e83.js",
+    "static/media/vision.png": "/react_marvel_heroes/static/media/vision.067d4ae1936d64a577ce.png",
+    "static/media/mjolnir.png": "/react_marvel_heroes/static/media/mjolnir.61f31e1809f12183a524.png",
+    "static/media/Avengers.png": "/react_marvel_heroes/static/media/Avengers.4065c8f9c94e3d8b039a.png",
+    "static/media/error.gif": "/react_marvel_heroes/static/media/error.42292aa12b6bc303ce99.gif",
+    "static/media/Avengers_logo.png": "/react_marvel_heroes/static/media/Avengers_logo.9eaf219344d83362e830.png",
+    "index.html": "/react_marvel_heroes/index.html",
+    "main.c010bfe3.css.map": "/react_marvel_heroes/static/css/main.c010bfe3.css.map",
+    "main.1c061e83.js.map": "/react_marvel_heroes/static/js/main.1c061e83.js.map"
   },
   "entrypoints": [
     "static/css/main.c010bfe3.css",
-    "static/js/main.9925f337.js"
+    "static/js/main.1c061e83.js"
   ]
 }
