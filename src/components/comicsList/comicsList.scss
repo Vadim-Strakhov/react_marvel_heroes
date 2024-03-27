@@ -21,6 +21,22 @@
       font-size: 14px;
       line-height: 18px;
     }
+    &-enter {
+      opacity: 0;
+      transform: translateY(60%);
+    }
+    &-enter-active {
+      opacity: 1;
+      transform: translateY(0%);
+      transition: all 700ms ease-in-out;
+    }
+    &-exit {
+      opacity: 1;
+    }
+    &-exit-active {
+      opacity: 0;
+      transition: opacity 700ms ease-in;
+    }
     &-price {
       margin-top: 5px;
       font-weight: bold;

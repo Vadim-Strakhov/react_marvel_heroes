@@ -29,8 +29,24 @@
       transform: translate(-15px, -15px);
     }
     &_selected {
-      box-shadow: 0 5px 20px $main-color;
-      transform: translateY(-8px);
+      box-shadow: 0px 5px 20px #9f0013;
+      transform: translateY(-9px);
+    }
+    &-enter {
+      opacity: 0;
+      transform: translateY(60%);
+    }
+    &-enter-active {
+      opacity: 1;
+      transform: translateY(0%);
+      transition: all 700ms ease-in-out;
+    }
+    &-exit {
+      opacity: 1;
+    }
+    &-exit-active {
+      opacity: 0;
+      transition: opacity 700ms ease-in;
     }
   }
   &__name {
