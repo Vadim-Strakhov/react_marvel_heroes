@@ -24,10 +24,7 @@ const App = () => {
         <main>
           <Suspense fallback={<Spinner />}>
             <Routes>
-              <Route
-                path="/react_marvel_heroes/characters"
-                element={<MainPage />}
-              />
+              <Route path="/react_marvel_heroes" element={<MainPage />} />
               <Route
                 path="/react_marvel_heroes/comics"
                 element={<ComicsPage />}
