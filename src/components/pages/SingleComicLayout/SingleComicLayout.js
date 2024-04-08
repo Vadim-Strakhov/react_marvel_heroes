@@ -1,8 +1,8 @@
+import "./singleComicLayout.scss";
+
 import { Helmet } from "react-helmet";
 
 import { Link } from "react-router-dom";
-
-import "./singleComicLayout.scss";
 
 const SingleComicLayout = ({ data }) => {
   const { title, description, pageCount, thumbnail, language, price } = data;

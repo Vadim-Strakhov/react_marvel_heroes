@@ -1,15 +1,15 @@
+import "./randomChar.scss";
+
 import React, { useState, useEffect } from "react";
 import useMarvelService from "../../services/MarvelService";
 
-import "./randomChar.scss";
-
-import Spinner from "../spinner/Spinner";
 import mjolnir from "../../resources/img/mjolnir.png";
-import ErrorMessage from "../errorMessage/ErrorMessage";
+
+import setContent from "../../utils/setContent";
 
 const RandomChar = () => {
   const [char, setChar] = useState(null);
-  const { loading, error, getCharacter, clearError } = useMarvelService();
+  const { getCharacter, clearError, process, setProcess } = useMarvelService();
 
   useEffect(() => {
     updateChar();
@@ -29,18 +29,14 @@ const RandomChar = () => {
     clearError(); //_ для очистки ошибки и возобновления работы
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
     //_ запрос на сервер
-    getCharacter(id).then(onCharLoaded);
+    getCharacter(id)
+      .then(onCharLoaded)
+      .then(() => setProcess("confirmed"));
   };
-
-  const errorMessage = error ? <ErrorMessage /> : null; //_ если произошла ошибка
-  const spinner = loading ? <Spinner /> : null; //_ спиннер загрузки
-  const content = !(loading || error || !char) ? <View char={char} /> : null; //_ если все загрузилось
 
   return (
     <div className="randomchar">
-      {errorMessage}
-      {spinner}
-      {content}
+      {setContent(process, View, char)}
       <div className="randomchar__static">
         <p className="randomchar__title">
           Random character for today!
@@ -57,8 +53,8 @@ const RandomChar = () => {
   );
 };
 
-const View = ({ char }) => {
-  const { name, description, thumbnail, homepage, wiki } = char;
+const View = ({ data }) => {
+  const { name, description, thumbnail, homepage, wiki } = data;
 
   let imgStyle = { objectFit: "cover" };
 
