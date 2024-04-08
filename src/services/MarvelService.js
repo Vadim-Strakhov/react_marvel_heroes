@@ -23,6 +23,29 @@ const useMarvelService = () => {
     return transformCharacter(res.data.results[0]);
   };
 
+  //_ поиск по имени
+  const getCharacterByName = async (name) => {
+    const res = await request(`${apiBase}/characters?name=${name}&${apiKey}`);
+    // console.log(res.data.results.map(transformCharacter));
+    return res.data.results.map(transformCharacter);
+  };
+
+  //_ получение всех комиксов
+  const getAllComics = async (offset = 0) => {
+    const res = await request(
+      `${apiBase}comics?limit=8&offset=${offset}&${apiKey}`
+    );
+    // console.log(res.data.results.map(transformComics));
+    return res.data.results.map(transformComics);
+  };
+
+  //_ получение комикса по id
+  const getComic = async (id) => {
+    const res = await request(`${apiBase}comics/${id}?${apiKey}`);
+    // console.log(transformComics(res.data.results[0]));
+    return transformComics(res.data.results[0]);
+  };
+
   const transformCharacter = (char) => {
     return {
       id: char.id,
@@ -35,20 +58,6 @@ const useMarvelService = () => {
       wiki: char.urls[1].url,
       comics: char.comics.items,
     };
-  };
-
-  const getAllComics = async (offset = 0) => {
-    const res = await request(
-      `${apiBase}comics?limit=8&offset=${offset}&${apiKey}`
-    );
-    // console.log(res.data.results.map(transformComics));
-    return res.data.results.map(transformComics);
-  };
-
-  const getComic = async (id) => {
-    const res = await request(`${apiBase}comics/${id}?${apiKey}`);
-    console.log(transformComics(res.data.results[0]));
-    return transformComics(res.data.results[0]);
   };
 
   const transformComics = (comics) => {
@@ -76,6 +85,7 @@ const useMarvelService = () => {
     getCharacter,
     getAllComics,
     getComic,
+    getCharacterByName,
   };
 };
 
